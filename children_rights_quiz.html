@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار حقوق الطفل - المحكمة الذكية</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --royal-blue: #1a3a6b;
+    --deep-blue: #0d2247;
+    --gold: #c9a227;
+    --light-gold: #f0d080;
+    --cream: #f8f3e6;
+    --warm-cream: #f2e8d0;
+    --dark-text: #1a1a2e;
+    --correct: #2d7a4f;
+    --wrong: #8b1a1a;
+    --correct-light: #d4edda;
+    --wrong-light: #f8d7da;
+    --shadow: 0 8px 32px rgba(26,58,107,0.18);
+    --border-gold: 2px solid var(--gold);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--deep-blue);
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(201,162,39,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(201,162,39,0.06) 0%, transparent 50%),
+      repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.01) 40px, rgba(255,255,255,0.01) 41px);
+    min-height: 100vh;
+    color: var(--dark-text);
+    direction: rtl;
+  }
+
+  /* ===== HEADER ===== */
+  .court-header {
+    background: linear-gradient(135deg, var(--royal-blue) 0%, var(--deep-blue) 60%, #0a1a3a 100%);
+    border-bottom: 4px solid var(--gold);
+    padding: 2rem 1rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .court-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      90deg, transparent, transparent 60px,
+      rgba(201,162,39,0.04) 60px, rgba(201,162,39,0.04) 61px
+    );
+  }
+
+  .gavel-icon { font-size: 3rem; animation: gavel 2s ease-in-out infinite; display: inline-block; }
+  @keyframes gavel { 0%,100%{transform:rotate(-10deg)} 50%{transform:rotate(10deg)} }
+
+  .court-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    color: var(--light-gold);
+    text-shadow: 0 2px 12px rgba(201,162,39,0.4);
+    margin: 0.5rem 0 0.3rem;
+    letter-spacing: 1px;
+  }
+
+  .court-subtitle {
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    color: rgba(248,243,230,0.75);
+    font-weight: 300;
+  }
+
+  .funny-intro {
+    background: linear-gradient(135deg, rgba(201,162,39,0.15), rgba(201,162,39,0.05));
+    border: var(--border-gold);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem auto 0;
+    max-width: 700px;
+    color: var(--light-gold);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    position: relative;
+  }
+
+  .funny-intro::before {
+    content: '⚖️';
+    position: absolute; top: -14px; right: 20px;
+    font-size: 1.5rem; background: var(--deep-blue); padding: 0 6px;
+  }
+
+  /* ===== SCORE BAR ===== */
+  .score-bar {
+    background: linear-gradient(90deg, var(--royal-blue), var(--deep-blue));
+    border-bottom: 2px solid rgba(201,162,39,0.3);
+    padding: 0.8rem 1.5rem;
+    display: flex; align-items: center; justify-content: center; gap: 2rem;
+    flex-wrap: wrap; position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .score-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: var(--cream); font-size: 0.9rem;
+  }
+
+  .score-num {
+    font-size: 1.3rem; font-weight: 900;
+    color: var(--light-gold);
+    min-width: 30px; text-align: center;
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  .main-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .section-header {
+    background: linear-gradient(135deg, var(--royal-blue), #1e4a8a);
+    border: var(--border-gold);
+    border-radius: 16px;
+    padding: 1.2rem 1.8rem;
+    margin: 2.5rem 0 1.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .section-header::after {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 6px; height: 100%;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    color: var(--light-gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .section-joke {
+    font-size: 0.85rem;
+    color: rgba(240,208,128,0.7);
+    font-style: italic;
+  }
+
+  .section-count {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--deep-blue);
+    font-weight: 900;
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  /* ===== QUESTION CARD ===== */
+  .q-card {
+    background: var(--cream);
+    border: 1px solid rgba(201,162,39,0.25);
+    border-radius: 14px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .q-card::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(to bottom, var(--gold), var(--royal-blue));
+  }
+
+  .q-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+  .q-card.answered-correct { background: var(--correct-light); border-color: var(--correct); }
+  .q-card.answered-wrong { background: var(--wrong-light); border-color: var(--wrong); }
+
+  .q-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    background: var(--royal-blue);
+    color: var(--light-gold);
+    border-radius: 50%;
+    font-size: 0.85rem; font-weight: 700;
+    margin-left: 10px; flex-shrink: 0;
+  }
+
+  .q-text {
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    color: var(--dark-text);
+    line-height: 1.9;
+    font-weight: 600;
+    display: flex; align-items: flex-start; gap: 0;
+  }
+
+  .q-text-content { flex: 1; }
+
+  .result-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 12px; border-radius: 20px;
+    font-size: 0.85rem; font-weight: 700;
+    margin-right: 10px; margin-top: 4px;
+    transition: all 0.3s;
+  }
+
+  .result-badge.correct { background: var(--correct); color: white; }
+  .result-badge.wrong { background: var(--wrong); color: white; }
+
+  /* ===== TRUE/FALSE BUTTONS ===== */
+  .tf-buttons {
+    display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap;
+  }
+
+  .tf-btn {
+    flex: 1; min-width: 80px;
+    padding: 0.6rem 1.2rem;
+    border: 2px solid;
+    border-radius: 30px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(.4,0,.2,1);
+    position: relative; overflow: hidden;
+  }
+
+  .tf-btn.true-btn { border-color: var(--correct); color: var(--correct); background: transparent; }
+  .tf-btn.false-btn { border-color: var(--wrong); color: var(--wrong); background: transparent; }
+
+  .tf-btn:hover:not(:disabled) { transform: scale(1.04); }
+  .tf-btn.true-btn:hover:not(:disabled) { background: var(--correct); color: white; }
+  .tf-btn.false-btn:hover:not(:disabled) { background: var(--wrong); color: white; }
+
+  .tf-btn.selected-correct { background: var(--correct); color: white; border-color: var(--correct); }
+  .tf-btn.selected-wrong { background: var(--wrong); color: white; border-color: var(--wrong); }
+  .tf-btn:disabled { cursor: default; opacity: 0.8; }
+
+  /* ===== MCQ OPTIONS ===== */
+  .mcq-options {
+    display: grid; gap: 0.6rem; margin-top: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  .mcq-opt {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    border: 2px solid rgba(26,58,107,0.2);
+    border-radius: 10px;
+    background: var(--warm-cream);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem; color: var(--dark-text);
+    text-align: right;
+    font-weight: 500;
+  }
+
+  .mcq-opt:hover:not(.disabled) {
+    border-color: var(--royal-blue);
+    background: #e8f0fe;
+    transform: translateX(-3px);
+  }
+
+  .mcq-opt.correct-opt { background: var(--correct-light); border-color: var(--correct); color: var(--correct); font-weight: 700; }
+  .mcq-opt.wrong-opt { background: var(--wrong-light); border-color: var(--wrong); color: var(--wrong); }
+  .mcq-opt.disabled { cursor: default; }
+
+  .opt-letter {
+    min-width: 28px; height: 28px;
+    background: var(--royal-blue); color: var(--light-gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+  }
+
+  .mcq-opt.correct-opt .opt-letter { background: var(--correct); }
+  .mcq-opt.wrong-opt .opt-letter { background: var(--wrong); }
+
+  /* ===== ESSAY QUESTIONS ===== */
+  .essay-answer {
+    display: none;
+    margin-top: 1rem;
+    background: linear-gradient(135deg, rgba(26,58,107,0.06), rgba(201,162,39,0.05));
+    border: 1px solid var(--gold);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-size: 0.9rem;
+    color: var(--dark-text);
+    line-height: 2;
+    animation: slideDown 0.3s ease;
+  }
+
+  .essay-answer.visible { display: block; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .essay-answer strong {
+    color: var(--royal-blue);
+    display: block; margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .show-answer-btn {
+    margin-top: 1rem;
+    padding: 0.55rem 1.4rem;
+    background: linear-gradient(135deg, var(--royal-blue), #1e4a8a);
+    color: var(--light-gold);
+    border: 2px solid var(--gold);
+    border-radius: 25px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .show-answer-btn:hover {
+    background: linear-gradient(135deg, var(--gold), #a8841f);
+    color: var(--deep-blue);
+    transform: scale(1.02);
+  }
+
+  /* ===== RESULT PANEL ===== */
+  .result-panel {
+    background: linear-gradient(135deg, var(--royal-blue), var(--deep-blue));
+    border: 3px solid var(--gold);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    margin: 3rem 0 1rem;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    display: none;
+    animation: fadeInUp 0.5s ease;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-panel.visible { display: block; }
+
+  .result-score {
+    font-family: 'Amiri', serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--light-gold);
+    text-shadow: 0 4px 16px rgba(201,162,39,0.5);
+    line-height: 1;
+    margin: 0.5rem 0;
+  }
+
+  .result-grade {
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    color: var(--cream);
+    margin: 0.5rem 0 1rem;
+  }
+
+  .result-comment {
+    font-size: 1rem; color: rgba(240,208,128,0.85);
+    font-style: italic; line-height: 1.8;
+  }
+
+  .final-btn {
+    margin-top: 1.5rem;
+    padding: 0.9rem 2.5rem;
+    background: var(--gold);
+    color: var(--deep-blue);
+    border: none; border-radius: 30px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem; font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 16px rgba(201,162,39,0.4);
+  }
+
+  .final-btn:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(201,162,39,0.5); }
+
+  /* ===== DECORATIVE DIVIDERS ===== */
+  .gold-divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 0.5rem 0;
+  }
+
+  .gold-divider::before, .gold-divider::after {
+    content: ''; flex: 1;
+    height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .gold-divider span { color: var(--gold); font-size: 1rem; }
+
+  /* ===== PROGRESS ===== */
+  .progress-wrapper {
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px; height: 6px;
+    margin: 1rem 0; overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--light-gold));
+    border-radius: 20px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .court-header { padding: 1.5rem 1rem 1rem; }
+    .main-container { padding: 1rem 0.7rem 3rem; }
+    .q-card { padding: 1rem 1rem; }
+    .tf-buttons { gap: 0.5rem; }
+    .score-bar { gap: 1rem; padding: 0.6rem 1rem; }
+  }
+
+  /* ===== STAMP EFFECT ===== */
+  .stamp {
+    display: inline-block;
+    border: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-right: 8px;
+    vertical-align: middle;
+    opacity: 0.8;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="court-header">
+  <div class="gavel-icon">⚖️</div>
+  <h1 class="court-title">المحكمة العليا لحقوق الطفل</h1>
+  <p class="court-subtitle">اختبار شامل في مادة حقوق الأطفال ذوي الاحتياجات الخاصة</p>
+  <div class="funny-intro">
+    🏛️ <strong>أهلاً يا سيادة القاضي/ة!</strong><br>
+    انت دلوقتي واقف قدام أعدل محكمة في التاريخ... محكمة الاختبارات! مفيش وساطة هنا، مفيش "عارف حد"، والدفاع الوحيد المقبول هو المذاكرة الصح. 
+    اللي بيجاوب صح هيتبرأ، واللي بيغلط هيتحاكم بـ "مراجعة تانية". الجلسة بدأت، إتفضل يا سيادتك! 🎓
+  </div>
+</header>
+
+<!-- ===== SCORE BAR ===== -->
+<div class="score-bar">
+  <div class="score-item">📝 <span>الأسئلة:</span> <span class="score-num" id="totalQ">50</span></div>
+  <div class="score-item">✅ <span>صح:</span> <span class="score-num" id="correctCount">0</span></div>
+  <div class="score-item">❌ <span>غلط:</span> <span class="score-num" id="wrongCount">0</span></div>
+  <div class="score-item">📊 <span>النسبة:</span> <span class="score-num" id="scorePercent">0%</span></div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-container">
+
+  <!-- ============================== -->
+  <!-- SECTION 1: TRUE / FALSE (20 Q) -->
+  <!-- ============================== -->
+  <div class="section-header">
+    <div>
+      <span class="section-count">القسم الأول</span>
+      <span class="stamp">20 سؤال</span>
+    </div>
+    <h2 class="section-title">🔴🟢 أسئلة صح أو خطأ</h2>
+    <p class="section-joke">⚖️ "يا محامي، قول صح ولا غلط... مش اتكلم كتير!" — القاضي المزعوج من الكلام الفاضي</p>
+  </div>
+
+  <div id="tf-section"></div>
+
+  <div class="gold-divider"><span>⚜</span></div>
+
+  <!-- ============================== -->
+  <!-- SECTION 2: MCQ (20 Q)          -->
+  <!-- ============================== -->
+  <div class="section-header">
+    <div>
+      <span class="section-count">القسم الثاني</span>
+      <span class="stamp">20 سؤال</span>
+    </div>
+    <h2 class="section-title">🔵 أسئلة اختيار من متعدد</h2>
+    <p class="section-joke">🎯 "اختار الإجابة الصح... لو اخترت غلط، القانون مش بيرحم!" — أحكمة قانونية مصرية ✌️</p>
+  </div>
+
+  <div id="mcq-section"></div>
+
+  <div class="gold-divider"><span>⚜</span></div>
+
+  <!-- ============================== -->
+  <!-- SECTION 3: ESSAY (10 Q)        -->
+  <!-- ============================== -->
+  <div class="section-header">
+    <div>
+      <span class="section-count">القسم الثالث</span>
+      <span class="stamp">10 أسئلة</span>
+    </div>
+    <h2 class="section-title">📜 أسئلة مقالية للحفظ</h2>
+    <p class="section-joke">✍️ "هنا الكلام بقيمة... زي لوحة في المحكمة، كل كلمة ليها وزن!" — مقولة طالب بيحاول يفهم 😅</p>
+  </div>
+
+  <div id="essay-section"></div>
+
+  <!-- ============================== -->
+  <!-- RESULT PANEL                   -->
+  <!-- ============================== -->
+  <div class="result-panel" id="resultPanel">
+    <div style="font-size:3rem">🏆</div>
+    <div style="color:var(--light-gold);font-size:1rem;margin-bottom:0.5rem">نتيجتك في الأسئلة الموضوعية (صح/خطأ + اختياري)</div>
+    <div class="result-score" id="finalScore">0 / 40</div>
+    <div class="result-grade" id="finalGrade">ممتاز</div>
+    <div class="result-comment" id="finalComment"></div>
+    <button class="final-btn" onclick="resetQuiz()">🔄 إعادة الاختبار</button>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const tfQuestions = [
+  { q: "حقوق الإنسان هي ضمانات قانونية عالمية تحمي الأفراد والمجموعات من الأفعال التي تعيق التمتع بالحريات الأساسية وكرامة الإنسان.", ans: true },
+  { q: "يُعرَّف الطفل في قانون الطفل المصري رقم 12 لسنة 1996 بأنه كل من لم يبلغ ثماني عشرة سنة ميلادية كاملة.", ans: true },
+  { q: "الفقه القانوني الدولي يعرف حقوق الإنسان بأنها حقوق خاصة بفئة معينة من الناس دون غيرهم.", ans: false },
+  { q: "الاتجاه الأول في تعريف الحق هو اتجاه موضوعي يرى أن الحق مصلحة يحميها القانون.", ans: false },
+  { q: "الطفولة عند علماء القانون تمتد من الميلاد حتى بلوغ سن الثامنة عشرة.", ans: true },
+  { q: "المعيار الاجتماعي لتحديد مرحلة الطفولة يشمل الاعتماد على الكبار ومعدل النمو الجسمي والعقلي.", ans: true },
+  { q: "أفلاطون كان مؤيداً لدمج ذوي الاحتياجات الخاصة في المجتمع ورفض التخلص منهم.", ans: false },
+  { q: "الإسلام ينظر إلى العاهة أو الإعاقة باعتبارها اختباراً من الله عز وجل وليست صفة نقص.", ans: true },
+  { q: "اتفاقية حقوق الطفل لعام 1989م تعدّ من أقل وثائق حقوق الإنسان تأثيراً على مستوى العالم.", ans: false },
+  { q: "المادة 23 من اتفاقية حقوق الطفل تنص صراحةً على حق الطفل ذي الإعاقة في حياة كريمة والرعاية الصحية والتعليم والتأهيل.", ans: true },
+  { q: "أعلنت الجمعية العامة للأمم المتحدة عام 1981م سنة دولية للمعاقين تحت شعار 'المشاركة الكاملة والمساواة'.", ans: true },
+  { q: "القانون الإسبرطي كان ينص على احتضان المعاقين ورعايتهم داخل المجتمع.", ans: false },
+  { q: "حرمت الشريعة الإسلامية السخرية من ذوي الاحتياجات الخاصة وذلك في سورة الحجرات الآية 11.", ans: true },
+  { q: "الميثاق الأفريقي لحقوق الطفل ورفاهيته الصادر عام 1990م يعترف بحقوق الطفل المعاق في المادة 13.", ans: true },
+  { q: "المعيار الاقتصادي لتحديد الطفولة يعتمد على القدرة الإنتاجية، فالمجتمعات المتحضرة تعتبر مرحلة الطفولة مرحلة الإعداد قبل الإنتاج.", ans: true },
+  { q: "اتفاقية حقوق الأشخاص ذوي الإعاقة الأممية تقوم على ستة مبادئ توجيهية فقط.", ans: false },
+  { q: "يحق للطفل المعاق الحصول على الرعاية الخاصة مجاناً كلما أمكن ذلك وفق الفقرة الثالثة من المادة 23 من اتفاقية حقوق الطفل.", ans: true },
+  { q: "الكنيسة الكاثوليكية في العصور الوسطى كانت تشجع على مساعدة ذوي الاحتياجات الخاصة بكل قوة.", ans: false },
+  { q: "يعد 3 ديسمبر من كل عام يوماً عالمياً لذوي الاحتياجات الخاصة تحتفل به الأمم المتحدة منذ عام 1992.", ans: true },
+  { q: "أرسطو أعلن أن الطفل الأصم والأبكم غير جدير تعليمه لعدم قدرته على الكلام.", ans: true },
+];
+
+const mcqQuestions = [
+  {
+    q: "ما الذي تعنيه الحقوق من الناحية الفلسفية وفق الفقه القانوني؟",
+    opts: ["مصلحة يحميها القانون فقط", "السلطة أو القدرة التي يقررها القانون لشخص ويخوله القيام بعمل معين", "واجبات تفرضها الدولة على الفرد", "امتيازات ممنوحة لفئات معينة"],
+    ans: 1
+  },
+  {
+    q: "وفق إعلان الأمم المتحدة الصادر عام 1975م، ما الذي يؤكده البند الرابع بشأن المعاقين؟",
+    opts: ["حق المعاق في التصويت فقط", "حق المعاق في الزواج والإنجاب", "أحقية المعاقين بالتدابير الهادفة التي تمكنهم من الاعتماد على أنفسهم بقدر الإمكان", "حق المعاق في الهجرة الدولية"],
+    ans: 2
+  },
+  {
+    q: "أي من التالي يُعدّ من فئات الأطفال ذوي الاحتياجات الخاصة وفق تصنيف التربية الخاصة؟",
+    opts: ["المعاقون جسدياً وحسياً وذهنياً وأكاديمياً وتواصلياً وسلوكياً ومتعددو العوق", "المتفوقون دراسياً فقط", "الأطفال الذين يعانون من مشكلات اجتماعية فقط", "الأطفال ذوو الدخل المحدود"],
+    ans: 0
+  },
+  {
+    q: "في أي عام صدر إعلان حقوق الطفل عن الجمعية العامة للأمم المتحدة الذي أكد حق الطفل المعاق في رعاية خاصة؟",
+    opts: ["1945م", "1959م", "1971م", "1989م"],
+    ans: 1
+  },
+  {
+    q: "ما التعريف القانوني للطفل المعاق وفق النصوص التشريعية؟",
+    opts: ["كل طفل لم يبلغ العاشرة", "كل طفل غير قادر على الاعتماد على نفسه في مزاولة الأنشطة نتيجة قصور عضوي أو عقلي أو حسي أو لقصور لقمي", "كل طفل يعاني من مشكلة نفسية", "كل طفل يحتاج إلى دعم مادي"],
+    ans: 1
+  },
+  {
+    q: "اتفاقية حقوق الأشخاص ذوي الإعاقة — كم عدد مبادئها التوجيهية الأساسية؟",
+    opts: ["خمسة مبادئ", "ستة مبادئ", "سبعة مبادئ", "ثمانية مبادئ"],
+    ans: 3
+  },
+  {
+    q: "ما الذي نصّت عليه المادة 15 من الميثاق الاجتماعي الأوروبي لعام 1961م؟",
+    opts: ["حق الأشخاص المصابين بعجز في الحصول على تدريب مهني وتأهيل وإعادة الاستقرار في المجتمع", "حق المعاق في التعليم المجاني فقط", "حق المعاق في العمل بأجر مساوٍ", "حق المعاق في الجنسية المزدوجة"],
+    ans: 0
+  },
+  {
+    q: "ما موقف الإسلام من العلاقات غير الشرعية كسبب من أسباب الإعاقة؟",
+    opts: ["يتجاهله تماماً", "يشجع عليها في بعض الحالات", "يحرمها لأنها سبب رئيسي في أمراض قاتلة وتهدد الكيان الأسري", "يتركها للمجتمع يقررها"],
+    ans: 2
+  },
+  {
+    q: "في قانون الطفل المصري (المادة 141 من اللائحة)، ما الذي يُعدّ طفلاً ذا إعاقة؟",
+    opts: ["كل طفل يحتاج لمساعدة عائلية فقط", "كل طفل لديه قصر كلي أو جزئي بدني أو عقلي أو ذهني أو نفسي أو حسي طويل الأجل يمنعه من المشاركة الكاملة في المجتمع", "كل طفل دون سن العاشرة", "كل طفل يعاني من فقر اقتصادي"],
+    ans: 1
+  },
+  {
+    q: "ما مضمون المبدأ الخامس من المبادئ الثمانية لاتفاقية حقوق الأشخاص ذوي الإعاقة؟",
+    opts: ["احترام الكرامة", "عدم التمييز", "إمكانية الوصول", "تكافؤ الفرص"],
+    ans: 3
+  },
+  {
+    q: "متى فُتح باب التوقيع على اتفاقية حقوق الأشخاص ذوي الإعاقة؟",
+    opts: ["30 مارس 2007م", "13 ديسمبر 2006م", "3 مايو 2008م", "20 ديسمبر 1993م"],
+    ans: 0
+  },
+  {
+    q: "ما مقتضى الفقرة الثانية من المادة 23 من اتفاقية حقوق الطفل؟",
+    opts: ["تعترف الدول بحق الطفل المعوق في التمتع برعاية خاصة وتشجيع توفير المساعدة اللازمة", "تلزم الدول بعدم تعليم الأطفال المعاقين", "تحدد سن 18 حداً أقصى لتلقي الرعاية", "تفرض رسوماً على خدمات التأهيل"],
+    ans: 0
+  },
+  {
+    q: "وفق مبادئ الكنيسة الكاثوليكية، ما الحق الأول للإنسان؟",
+    opts: ["حق التعليم", "الحياة البشرية هبة مجانية من الله", "حق التملك", "حق الانتخاب"],
+    ans: 1
+  },
+  {
+    q: "ما المعيار الذي اعتمدته التشريعات الوضعية غالباً لتحديد مرحلة الطفولة؟",
+    opts: ["المعيار الاجتماعي", "المعيار الاقتصادي", "المعيار الزمني (العمري)", "المعيار الديني"],
+    ans: 2
+  },
+  {
+    q: "ما مضمون برنامج العمل العالمي الصادر عام 1982م؟",
+    opts: ["يحدد المبادئ التوجيهية لاستراتيجية عالمية لتعزيز اتخاذ إجراءات فعالة لحماية حقوق المعاقين وكرامتهم وتعميق المساواة", "ينظم تمويل الأمم المتحدة", "يحدد حصص الهجرة للمعاقين", "يلزم الدول بإنشاء سجون خاصة"],
+    ans: 0
+  },
+  {
+    q: "ما الهدف السادس من ميثاق حقوق الطفل العربي لعام 1983م؟",
+    opts: ["تأسيس نظام للرعاية والتربية الخاصة للأطفال المعاقين بما يضمن اندماجهم في الحياة الطبيعية", "توفير المنح الدراسية للمتفوقين", "تعزيز الرياضة المدرسية", "بناء مدارس إلكترونية"],
+    ans: 0
+  },
+  {
+    q: "ما الذي تؤكده المادة 26 من اتفاقية حقوق الأشخاص ذوي الإعاقة بشأن التأهيل؟",
+    opts: ["تلتزم الدول باتخاذ تدابير فعالة لتمكين الأشخاص ذوي الإعاقة من تحقيق أقصى قدر من الاستقلالية والقدرة في جميع جوانب الحياة", "تحظر على المعاقين العمل في القطاع الخاص", "تلزم بدفع تعويضات شهرية فقط", "تحدد فترة التأهيل بثلاث سنوات"],
+    ans: 0
+  },
+  {
+    q: "وفق نظرة الإسلام إلى تكريم الإنسان، من يشمل التكريم الإلهي؟",
+    opts: ["المسلمين فقط", "الأصحاء فقط", "جميع بني آدم سليماً كان أو سقيماً أو كبيراً، رجلاً كان أو امرأة", "العلماء والحكام فقط"],
+    ans: 2
+  },
+  {
+    q: "في أي دولة من بلاد الشرق الأوسط القديم عُثر على نصوص قانون 'حمورابي' التي تضمنت نصوصاً تتعلق بالجذام والعقاب وعلاج مبتوري الأطراف؟",
+    opts: ["مصر القديمة", "فارس", "بابل", "الهند"],
+    ans: 2
+  },
+  {
+    q: "ما الفقرة الثالثة من المادة 23 من اتفاقية حقوق الطفل تضمن؟",
+    opts: ["تقديم المساعدة للطفل المعاق مجاناً كلما أمكن مع مراعاة الموارد المالية", "إلزامية الدراسة حتى سن 14 للطفل المعاق", "حظر التبني للأطفال المعاقين", "تخفيض ضرائب أسر الأطفال المعاقين"],
+    ans: 0
+  },
+];
+
+const essayQuestions = [
+  {
+    q: "عرّف مفهوم حقوق الإنسان وفق الفقه القانوني الدولي، مع الإشارة إلى الاتجاهات الثلاثة في تعريف الحق.",
+    ans: "الفقه القانوني الدولي يعرف حقوق الإنسان بأنها: 'حقوق مشتركة بين الناس لا يستأثر بها أحد على سبيل الاستئثار والإفراد'. الاتجاه الأول (شخصي): الحق قدرة أو سلطة إرادية للشخص يستمدها من القانون. الاتجاه الثاني (موضوعي): الحق مصلحة يحميها القانون ويُقرَّر لإرادة التشريع في الدولة. الاتجاه الثالث (مختلط): الحق قدرة إرادية معطاة للشخص من أجل تحقيق مصلحة يحميها القانون، وهو يجمع بين الاتجاه الشخصي والموضوعي معاً."
+  },
+  {
+    q: "اذكر المعايير الثلاثة التي تحدد مرحلة الطفولة وفق المنظور التشريعي، مع شرح موجز لكل معيار.",
+    ans: "المعيار الأول — الاجتماعي: مجموعة السمات الاجتماعية كالاعتماد على الكبار ومعدل النمو الجسمي والعقلي والذاتية في العلاقات والتعايش المستمر. المعيار الثاني — الاقتصادي: يعتمد على القدرة الإنتاجية، فالمجتمعات المتحضرة تعتبر الطفولة مرحلة الإعداد للإنتاج وتمتد حتى انتهاء مراحل التعليم. المعيار الثالث — الزمني (العمري): يعتمد على مجموعة الخصائص التي تميز مرحلة الطفولة باعتبارها مرحلة عمر تمتد من الميلاد إلى البلوغ وفيها يعتمد الطفل على الأسرة في عملية التنشئة."
+  },
+  {
+    q: "كيف عالج الإسلام رعاية ذوي الاحتياجات الخاصة؟ اذكر خمسة محاور رئيسية على الأقل.",
+    ans: "أولاً: تكريم الله تعالى للإنسان عامة دون تمييز — 'وَلَقَدْ كَرَّمْنَا بَنِي آدَمَ'. ثانياً: مواساة ذوي الفئات الخاصة وإشعارهم بأن الله سيثيبهم على صبرهم. ثالثاً: تحريم السخرية من ذوي الاحتياجات الخاصة — سورة الحجرات الآية 11. رابعاً: مراعاة التكاليف الشرعية لظروفهم وتخفيفها أو إعفاؤهم منها — 'وَمَا جَعَلَ عَلَيْكُمْ فِي الدِّينِ مِنْ حَرَجٍ'. خامساً: تقديم تلبية احتياجاتهم على احتياجات غيرهم. سادساً: معالجة أسباب العوق بالوقاية عبر اختيار الزواج من غير الأقارب وتحريم المسكرات والمخدرات وتأمين الغذاء الصحي للأم."
+  },
+  {
+    q: "أذكر أبرز البنود الخاصة بحقوق المعاقين وفقاً لميثاق الأمم المتحدة (اذكر سبعة بنود على الأقل).",
+    ans: "1- يتمتع المعاقون بجميع الحقوق دون أي استثناء أو تمييز. 2- لكل معاق حق مكتسب في الحصول على الاحترام ولكل معاق الحقوق الأساسية نفسها كما لمواطنيه. 3- حق المعاق في الكشف المبكر عن نوع عجزه والاستشارة الطبية. 4- حق المعاقين في الاستفادة من الخدمات الطبية بما في ذلك إضافة عضو صناعي وإعادة التأهيل. 5- تأمين للمعاقين حماية من كل أشكال الاستغلال والتمييز والظلم. 6- حق المعاق في المشاركة في سياسة الدولة الاجتماعية. 7- حق ممارسة الأنشطة الرياضية وتخصيص أماكن مناسبة. 8- حق التعليم الأساسي والثانوي والجامعي. 9- الحق في الزواج والإنجاب والتنقل والسفر والترفيه. 10- تأمين المرافق العامة المتناسبة مع احتياجاتهم."
+  },
+  {
+    q: "فصّل في المادة الأولى (141) من لائحة حقوق الطفل المصرية التي تحدد فئات الأطفال ذوي الإعاقة.",
+    ans: "المادة 141 تُعدّ طفلاً ذا إعاقة من لديه قصر كلي أو جزئي بدني أو عقلي أو ذهني أو نفسي أو حسي طويل الأجل يمنعه من المشاركة الكاملة في المجتمع. الفئات: 1- الأطفال ذوو الإعاقة البصرية (المكفوفون وضعاف البصر). 2- الأطفال ذوو الإعاقة السمعية والكلامية (الصم وضعاف السمع). 3- الأطفال ذوو الإعاقات التخاطبية (صعوبات التواصل اللفظي). 4- الأطفال ذوو الإعاقة الذهنية (نسبة ذكاء أقل من 70 مع قصور في الوظائف التكيفية). 5- الأطفال ذوو الإعاقة جسمانياً أو صحياً (عجز جسماني بسبب مرض أو حادثة). 6- الأطفال ذوو الإعاقة النفسية والعقلية والانفعالية. 7- الأطفال ذوو الإعاقات النمائية (اضطرابات التوحد ومتلازمة أسبرجر). 8- الأطفال ذوو الإعاقات المتعددة."
+  },
+  {
+    q: "اشرح موقف الحضارات الغربية القديمة (الإغريق، الرومان، إسبرطة) من ذوي الاحتياجات الخاصة.",
+    ans: "إسبرطة: كانت تنص قوانين ليكورجوس على التخلص من المعاقين بإلقائهم في نهر 'أوروتاس' ليموتوا غرقاً، أو وضع الأطفال المعاقين على سفوح الجبال ليلقوا مصيرهم. أثينا: قوانين سولون كانت تسمح بالتخلص ممن بهم عاهة. أفلاطون: أعلن أن ذوي الاحتياجات الخاصة عبء على المجتمع ودعا إلى نفيهم خارج الدولة. أرسطو: أعلن عدم جدوى تعليم الأصم والأبكم. الرومان: كانت التقاليد تنص على وضع الطفل عند قدم الوالد، فإن كان سليماً رُفع من الأرض وصار نافعاً، أما ذو التشوهات فيُعرَض عنه ويُترك للهلاك. السبب: سيادة معتقدات خرافية اعتبرت العمى ظلاماً والظلام شراً والجذام من الشيطان."
+  },
+  {
+    q: "اذكر وتفصّل المبادئ التوجيهية الثمانية لاتفاقية حقوق الأشخاص ذوي الإعاقة.",
+    ans: "1- احترام كرامة الأشخاص واستقلالهم الذاتي بما في ذلك حرية تقرير خياراتهم بأنفسهم واستقلاليتهم. 2- عدم التمييز. 3- المشاركة الكاملة والفعالة والاندماج في المجتمع. 4- احترام الفوارق وقبول الأشخاص ذوي الإعاقة كجزء من التنوع البشري والطبيعة البشرية. 5- تكافؤ الفرص. 6- إمكانية الوصول. 7- المساواة بين الرجل والمرأة. 8- احترام القدرات المتطورة للأطفال ذوي الإعاقة واحترام حق الأطفال في الحفاظ على هويتهم."
+  },
+  {
+    q: "وضّح كيف تناولت الأديان السماوية الثلاثة (اليهودية، المسيحية، الإسلام) موضوع رعاية الأطفال.",
+    ans: "الديانة اليهودية: أدرجت المدارس لتعليم الأطفال من سن السادسة، وجعلت التعليم إلزامياً للأولاد، غير أنها لم تُبرز اهتماماً واضحاً بفئة ذوي العاهات. الديانة المسيحية: دعت إلى نشر المحبة بين المسيحيين ومعاملة الطفل بالحسنى واهتمام المسيح بالأطفال وتحذيره من إفسادهم (أعذروا أن تعثروا أحد هؤلاء الصغار). الكنيسة الكاثوليكية حددت حقوقاً للجنين البشري منها: الحياة البشرية هبة من الله وعدم جواز التعرف فيه. الإسلام: أعطى الرعاية الشاملة لذوي الاحتياجات الخاصة، كرّم الإنسان مطلقاً، حرّم السخرية، راعى التكاليف الشرعية، وأمر بمواساتهم وتقديم حوائجهم، وتمييزاً لافتاً أن الإسلام سعى لمعالجة الأسباب المؤدية للعوق وقائياً."
+  },
+  {
+    q: "ما التطور التاريخي لحقوق الأطفال ذوي الاحتياجات الخاصة من 1959 إلى 1993م؟ اذكر أبرز المحطات.",
+    ans: "1959م — إعلان الجمعية العامة للأمم المتحدة لحقوق الطفل. 1961م — الميثاق الاجتماعي الأوروبي (المادة 15 حقوق المعاقين). 1966م — الاتفاقية الدولية للحقوق الاقتصادية والاجتماعية والثقافية. 1969م — الاتفاقية الأمريكية لحقوق الإنسان. 1971م — الإعلان الخاص بحقوق المتخلفين عقلياً. 1974م — الإعلان الخاص بحماية النساء والأطفال أثناء الطوارئ. 1975م — الإعلان العالمي بشأن حقوق المعوقين. 1981م — الميثاق الأفريقي لحقوق الإنسان / إعلان السنة الدولية للمعوقين. 1982م — برنامج العمل العالمي. 1983م — ميثاق حقوق الطفل العربي. 1989م — اتفاقية حقوق الطفل. 1990م — الميثاق الأفريقي لحقوق الطفل ورفاهيته. 1991م — مبادئ حماية الأشخاص المصابين بمرض عقلي. 1993م — القواعد الموحدة بشأن تحقيق تكافؤ الفرص للمعاقين."
+  },
+  {
+    q: "فصّل في دور الإسلام في معالجة أسباب العوق والإعاقة وقائياً من خلال جملة من التشريعات.",
+    ans: "1- اختيار الزواج من غير الأقارب: حماية من ضعف النسل وتجنب عقل وتناقل الأمراض الوراثية — 'تخيروا لنطفكم فإن العرق دساس'. 2- الحث على الوقاية من الأمراض: التأكيد على النظافة العامة للأيدي والطعام والثياب والمكان والبيئة، واعتبار النظافة من الإيمان. 3- تحريم الإسلام انتشار الوباء: منع الانتقال من مكان فيه وباء إلى أماكن أخرى حتى لا ينتشر. 4- تحريم العلاقات غير الشرعية: لأنها سبب رئيسي في أمراض قاتلة كالإيدز، فضلاً عن تهديدها للكيان الأسري. 5- تأمين الغذاء الصحي للأم: حتى لا يتأثر الجنين بأية أمراض، والحث على الرضاعة الطبيعية لحولين كاملين. 6- تحريم المسكرات والخمور والمخدرات: لأنها من أخطر الأمراض الاجتماعية وتؤثر على الذرية في صورة تشوهات للأجنة. 7- الأخذ بأسباب السلامة: 'ولا تلقوا بأيديكم إلى التهلكة'."
+  },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let correctCount = 0;
+let wrongCount = 0;
+let answeredObjective = 0;
+const totalObjective = tfQuestions.length + mcqQuestions.length;
+
+function updateScore() {
+  document.getElementById('correctCount').textContent = correctCount;
+  document.getElementById('wrongCount').textContent = wrongCount;
+  const pct = answeredObjective > 0 ? Math.round((correctCount / answeredObjective) * 100) : 0;
+  document.getElementById('scorePercent').textContent = pct + '%';
+  if (answeredObjective === totalObjective) showResult();
+}
+
+// ============================================================
+// RENDER TRUE/FALSE
+// ============================================================
+function renderTF() {
+  const container = document.getElementById('tf-section');
+  tfQuestions.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `tf-${i}`;
+    card.innerHTML = `
+      <div class="q-text">
+        <span class="q-num">${i + 1}</span>
+        <span class="q-text-content">${item.q}
+          <span class="result-badge" id="tf-badge-${i}" style="display:none"></span>
+        </span>
+      </div>
+      <div class="tf-buttons">
+        <button class="tf-btn true-btn" onclick="answerTF(${i}, true)">✅ صح</button>
+        <button class="tf-btn false-btn" onclick="answerTF(${i}, false)">❌ خطأ</button>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function answerTF(idx, userAns) {
+  const item = tfQuestions[idx];
+  const card = document.getElementById(`tf-${idx}`);
+  const badge = document.getElementById(`tf-badge-${idx}`);
+  const btns = card.querySelectorAll('.tf-btn');
+  btns.forEach(b => b.disabled = true);
+
+  const isCorrect = (userAns === item.ans);
+  if (isCorrect) {
+    correctCount++;
+    card.classList.add('answered-correct');
+    badge.className = 'result-badge correct';
+    badge.textContent = '✔ صح';
+    btns[0].classList.add('selected-correct');
+  } else {
+    wrongCount++;
+    card.classList.add('answered-wrong');
+    badge.className = 'result-badge wrong';
+    badge.textContent = '✘ خطأ';
+    btns[item.ans ? 0 : 1].classList.add('selected-correct');
+    btns[userAns ? 0 : 1].classList.add('selected-wrong');
+  }
+  badge.style.display = 'inline-flex';
+  answeredObjective++;
+  updateScore();
+}
+
+// ============================================================
+// RENDER MCQ
+// ============================================================
+function renderMCQ() {
+  const container = document.getElementById('mcq-section');
+  const letters = ['أ', 'ب', 'ج', 'د'];
+  mcqQuestions.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `mcq-${i}`;
+    let optsHtml = item.opts.map((opt, j) => `
+      <div class="mcq-opt" id="mcq-opt-${i}-${j}" onclick="answerMCQ(${i}, ${j})">
+        <span class="opt-letter">${letters[j]}</span>
+        <span>${opt}</span>
+      </div>`).join('');
+    card.innerHTML = `
+      <div class="q-text">
+        <span class="q-num">${i + 21}</span>
+        <span class="q-text-content">${item.q}
+          <span class="result-badge" id="mcq-badge-${i}" style="display:none"></span>
+        </span>
+      </div>
+      <div class="mcq-options">${optsHtml}</div>`;
+    container.appendChild(card);
+  });
+}
+
+function answerMCQ(qIdx, optIdx) {
+  const item = mcqQuestions[qIdx];
+  const card = document.getElementById(`mcq-${qIdx}`);
+  const badge = document.getElementById(`mcq-badge-${qIdx}`);
+  const opts = card.querySelectorAll('.mcq-opt');
+  opts.forEach(o => o.classList.add('disabled'));
+
+  const isCorrect = (optIdx === item.ans);
+  if (isCorrect) {
+    correctCount++;
+    card.classList.add('answered-correct');
+    opts[optIdx].classList.add('correct-opt');
+    badge.className = 'result-badge correct';
+    badge.textContent = '✔ صح';
+  } else {
+    wrongCount++;
+    card.classList.add('answered-wrong');
+    opts[optIdx].classList.add('wrong-opt');
+    opts[item.ans].classList.add('correct-opt');
+    badge.className = 'result-badge wrong';
+    badge.textContent = '✘ خطأ';
+  }
+  badge.style.display = 'inline-flex';
+  answeredObjective++;
+  updateScore();
+}
+
+// ============================================================
+// RENDER ESSAY
+// ============================================================
+function renderEssay() {
+  const container = document.getElementById('essay-section');
+  essayQuestions.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.innerHTML = `
+      <div class="q-text">
+        <span class="q-num">${i + 41}</span>
+        <span class="q-text-content">${item.q}</span>
+      </div>
+      <button class="show-answer-btn" onclick="toggleEssay(${i}, this)">
+        <span>👁</span> عرض الإجابة النموذجية
+      </button>
+      <div class="essay-answer" id="essay-ans-${i}">
+        <strong>📌 الإجابة النموذجية:</strong>
+        ${item.ans}
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function toggleEssay(idx, btn) {
+  const ansDiv = document.getElementById(`essay-ans-${idx}`);
+  if (ansDiv.classList.contains('visible')) {
+    ansDiv.classList.remove('visible');
+    btn.innerHTML = '<span>👁</span> عرض الإجابة النموذجية';
+  } else {
+    ansDiv.classList.add('visible');
+    btn.innerHTML = '<span>🙈</span> إخفاء الإجابة';
+  }
+}
+
+// ============================================================
+// RESULT
+// ============================================================
+function showResult() {
+  const panel = document.getElementById('resultPanel');
+  panel.classList.add('visible');
+  const pct = Math.round((correctCount / totalObjective) * 100);
+  document.getElementById('finalScore').textContent = `${correctCount} / ${totalObjective}`;
+
+  let grade, comment;
+  if (pct >= 90) {
+    grade = '🥇 ممتاز';
+    comment = 'يا سيادة القاضي، انت قاضي القرن! المحكمة العليا بتناديك بالاسم. 🏆';
+  } else if (pct >= 80) {
+    grade = '🥈 جيد جداً';
+    comment = 'ماشي كويس جداً يا محامي! بس في كام نقطة محتاج تراجعها قبل ما تقف قدام المحكمة. 👍';
+  } else if (pct >= 65) {
+    grade = '🥉 جيد';
+    comment = 'مش بطال، بس المحكمة محتاجة قاضي أقوى! راجع التشريعات الدولية كمان مرة. 📚';
+  } else if (pct >= 50) {
+    grade = '📋 مقبول';
+    comment = 'عدّيت بصعوبة يا صاحبي، القضية محتاجة مراجعة أعمق. الملف ما اكتملش! 🤔';
+  } else {
+    grade = '❌ يحتاج مراجعة';
+    comment = 'الجلسة اتأجلت لموعد تاني! الواجب إنك تراجع الكتاب من أول وجديد، المحكمة مش بتسامح! 😅📖';
+  }
+
+  document.getElementById('finalGrade').textContent = grade;
+  document.getElementById('finalComment').textContent = comment;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetQuiz() {
+  correctCount = 0; wrongCount = 0; answeredObjective = 0;
+  document.getElementById('correctCount').textContent = '0';
+  document.getElementById('wrongCount').textContent = '0';
+  document.getElementById('scorePercent').textContent = '0%';
+  document.getElementById('resultPanel').classList.remove('visible');
+  document.getElementById('tf-section').innerHTML = '';
+  document.getElementById('mcq-section').innerHTML = '';
+  document.getElementById('essay-section').innerHTML = '';
+  renderTF(); renderMCQ(); renderEssay();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderTF();
+renderMCQ();
+renderEssay();
+</script>
+</body>
+</html>
